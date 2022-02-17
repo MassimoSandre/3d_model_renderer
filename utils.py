@@ -18,6 +18,18 @@ def vector_sum(vec1, vec2, *argv):
 
     return tuple(result)
 
+def normalize(vec):
+    l = math.sqrt(vec[0]**2 + vec[1]**2 + vec[2]**2)
+    if l == 0:
+        return vec
+    return k_vector(vec, 1/l)
+
+def cross_product(vec1, vec2):
+    x = vec1[1]*vec2[2] - vec1[2]-vec2[1]
+    y = vec1[2]*vec2[0] - vec1[0]-vec2[2]
+    z = vec1[0]*vec2[1] - vec1[1]-vec2[0]
+    return (x,y,z)
+
 def dot_product(vec1, vec2):
     if len(vec1) != len(vec2):
         return None

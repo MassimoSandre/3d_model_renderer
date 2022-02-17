@@ -50,5 +50,25 @@ class Object():
         for tri in self.faces:
             cur_tri = []
             for comp in tri:
-                cur_tri.append(vertex2d[comp-1])
-            pygame.draw.polygon(window, (255,255,255), cur_tri, 1)
+                cur_tri.append(self.vectors[comp-1])
+
+            line1 = [0,0,0]
+            line2 = [0,0,0]
+            line1[0] = cur_tri[1][0] - cur_tri[0][0]
+            line1[1] = cur_tri[1][1] - cur_tri[0][1]
+            line1[2] = cur_tri[1][2] - cur_tri[0][2]
+
+            line2[0] = cur_tri[2][0] - cur_tri[0][0]
+            line2[1] = cur_tri[2][1] - cur_tri[0][1]
+            line2[2] = cur_tri[2][2] - cur_tri[0][2]
+
+            
+
+            normal = utils.normalize(utils.cross_product(line1,line2))
+
+            if normal[2] > 0:
+                cur_tri = []
+                for comp in tri:
+                    cur_tri.append(vertex2d[comp-1])
+
+                pygame.draw.polygon(window, (255,255,255), cur_tri, 1)
