@@ -25,9 +25,9 @@ def normalize(vec):
     return k_vector(vec, 1/l)
 
 def cross_product(vec1, vec2):
-    x = vec1[1]*vec2[2] - vec1[2]-vec2[1]
-    y = vec1[2]*vec2[0] - vec1[0]-vec2[2]
-    z = vec1[0]*vec2[1] - vec1[1]-vec2[0]
+    x = vec1[1]*vec2[2] - vec1[2]*vec2[1]
+    y = vec1[2]*vec2[0] - vec1[0]*vec2[2]
+    z = vec1[0]*vec2[1] - vec1[1]*vec2[0]
     return (x,y,z)
 
 def dot_product(vec1, vec2):
@@ -62,14 +62,33 @@ def rotate_z(vec, theta):
 
     return matrix_vector_product(mat, vec)
     
+class Projection():
+    def __init__(self,fov,screen_size) -> None:
+        self.NEAR = 0.1
+        self.FAR = 1000
+        self.fov = fov
+        self.screen_size = screen_size
+        self.aspect_ratio = screen_size[1]/screen_size[0]
 
-def project_z(vec):
-    base = [(1,0,0), (0,1,0)]
+    def project(self, vec):
+        x = self.aspect_ratio*(1/math.tan(self.fov/2))*vec[0]/vec[2]
+        y = (1/math.tan(self.fov/2))*vec[1]/vec[2]
 
-    result = (0,0,0)
-    for b in base:
-        p = dot_product(vec, b)
-        result = vector_sum(result,k_vector(b, p))
+        x+=1
+        y+=1
+        x*= 0.5*self.screen_size[0]
+        y*= 0.5*self.screen_size[1]
+
+        return (x,y)
+        
+
+# def project_z(vec):
+#     base = [(1,0,0), (0,1,0)]
+
+#     result = (0,0,0)
+#     for b in base:
+#         p = dot_product(vec, b)
+#         result = vector_sum(result,k_vector(b, p))
     
-    return result
+#     return result
 

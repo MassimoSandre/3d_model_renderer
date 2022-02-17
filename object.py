@@ -40,10 +40,10 @@ class Object():
         for i in range(len(self.vectors)):
             self.vectors[i] = utils.rotate_z(self.vectors[i], theta)
 
-    def render(self,window):
+    def render(self,window, projection, camera):
         vertex2d = []
         for v3 in self.vectors:
-            vertex2d.append(utils.project_z(utils.vector_sum(v3,self.pos))[:2])
+            vertex2d.append(projection.project(utils.vector_sum(v3,self.pos)))
 
         #print(vertex3d)
 
@@ -66,9 +66,18 @@ class Object():
 
             normal = utils.normalize(utils.cross_product(line1,line2))
 
-            if normal[2] > 0:
+            
+            t = utils.dot_product(normal,utils.vector_sum(cur_tri[0], self.pos, utils.k_vector(camera,-1)))
+            
+            if t < 0:
+                light = utils.normalize((0,0,-1))
+                a = utils.dot_product(light,normal)
+                
+                color =[128+127*a]*3 #[55+int(200*a)]*3
+
                 cur_tri = []
                 for comp in tri:
                     cur_tri.append(vertex2d[comp-1])
 
-                pygame.draw.polygon(window, (255,255,255), cur_tri, 1)
+                pygame.draw.polygon(window, color, cur_tri, 0)
+

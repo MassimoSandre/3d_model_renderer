@@ -1,11 +1,13 @@
 import pygame
 from pygame.locals import *
+from utils import *
+import math
 from object import Object
 
 ROTATING_SPEED = 0.01
 
 pygame.init()
-size = width, height = 620, 540
+size = width, height = 800, 800
 
 black = 0,0,0
 white = 255,255,255
@@ -14,9 +16,11 @@ screen = pygame.display.set_mode(size, RESIZABLE)
 
 clock = pygame.time.Clock()
 
-myobj = Object("model.obj",100,(200,200,200))
+myobj = Object("model.obj",0.5,(0,0,3))
 
+proj = Projection(math.pi/2, size)
 
+camera = (0,0,0)
 
 running = True
 rotating = True
@@ -26,7 +30,7 @@ while running:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1: 
-                myobj.set_pos([*event.pos,0])
+                pass
 
             if event.button == 2: 
                 rotating = not rotating
@@ -36,7 +40,7 @@ while running:
     screen.fill(black)
 
 
-    myobj.render(screen)
+    myobj.render(screen, proj, camera)
     
 
 
