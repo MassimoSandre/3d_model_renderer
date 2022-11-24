@@ -14,12 +14,12 @@ screen = pygame.display.set_mode(size, RESIZABLE)
 
 clock = pygame.time.Clock()
 
-myobj = Object("model.obj",100,(200,200,200))
+myobj = Object("models/model.obj",1,(0,0,0))
 
 
 
 running = True
-rotating = True
+rotating = False
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -28,15 +28,15 @@ while running:
             if event.button == 1: 
                 myobj.set_pos([*event.pos,0])
 
-            if event.button == 2: 
+            if event.button == 3: 
                 rotating = not rotating
 
             
             
     screen.fill(black)
 
-
-    myobj.render(screen)
+    
+    myobj.render(screen,(0,0,0),(0,0,-1))
     
 
 
